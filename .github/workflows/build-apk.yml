@@ -29,7 +29,7 @@ jobs:
       # 直接构建，不进 app 目录
       - name: Build APK
         run: |
-          flet build apk --no-publish --release
+          flet build apk
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
