@@ -1,0 +1,21 @@
+name: my_flet_app
+description: A Flet app.
+version: 1.0.0+1
+
+publish_to: 'none'
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: ">=3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flet:
+    git:
+      url: https://github.com/flet-dev/flet
+      ref: stable
+  webview_flutter: ^4.7.0  # ✅ 兼容 Flutter 3.29.2
+
+flutter:
+  uses-material-design: true
