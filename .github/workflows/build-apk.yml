@@ -5,7 +5,7 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-  workflow_dispatch:  # 允许手动触发
+  workflow_dispatch:
 
 jobs:
   build-apk:
@@ -13,38 +13,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. 拉取代码
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2. 设置 Python 环境
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
-      # 3. 安装依赖
-      - name: Install dependencies
+      - name: Install Flet
         run: |
           pip install --upgrade pip
           pip install flet
 
-      # 4. 进入项目目录（根据你的结构调整）
-      - name: Change to app directory
-        run: cd app
-
-      # 5. 构建 APK
+      # 直接构建，不进 app 目录
       - name: Build APK
         run: |
-          cd app
           flet build apk --no-publish --release
 
-      # 6. 上传 APK 作为构件（Artifact）
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: app-release-apk
-          path: app/build/app/outputs/flutter-apk/app-release.apk
+          path: build/app/outputs/flutter-apk/app-release.apk
           if-no-files-found: error
 
   publish-release:
