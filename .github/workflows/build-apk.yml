@@ -22,27 +22,13 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Install Flet CLI
+      - name: Install Flet
         run: |
           pip install --upgrade pip
           pip install flet
 
-      # 使用 flet create 创建标准项目结构（关键！）
-      - name: Create Flet App Structure
-        run: |
-          flet create . --project-name my_flet_app
-
-      # 确保使用我们自己的 pubspec.yaml（覆盖 flet create 生成的）
-      - name: Copy Custom Pubspec
-        run: |
-          cp pubspec.yaml ./
-
-      # 获取依赖（会生成 flutter 项目）
-      - name: Get Dependencies
-        run: |
-          flutter pub get
-
-      # 构建 APK
+      # 🔥 关键：flet build apk 会自动创建 Flutter 项目
+      # 只要你项目根目录有 pubspec.yaml，它就会用你的文件！
       - name: Build APK
         run: |
           flet build apk --no-sources
@@ -58,7 +44,8 @@ jobs:
     needs: build-apk
     if: startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: write
     steps:
       - name: Download APK
         uses: actions/download-artifact@v4

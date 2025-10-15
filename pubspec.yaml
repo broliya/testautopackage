@@ -15,18 +15,15 @@ dependencies:
   flet:
     git:
       url: https://github.com/flet-dev/flet
-      ref: stable  # 推荐改为具体稳定 commit 或 tag，避免拉到新版本
+      ref: stable
 
-  # 明确指定兼容版本，并覆盖所有子包
+  # 明确锁定版本，避免拉取过高版本
   webview_flutter: 4.7.0
 
-  # 强制所有 webview_flutter 的平台实现也使用 4.7.0
+# 强制所有子包使用 4.7.0，解决语言版本 3.9 错误
 dependency_overrides:
   webview_flutter_android: 4.7.0
   webview_flutter_ios: 4.7.0
-  webview_flutter_linux: 4.7.0
-  webview_flutter_macos: 4.7.0
-  webview_flutter_wkwebview: 4.7.0
 
 flutter:
   uses-material-design: true
