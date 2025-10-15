@@ -1,3 +1,4 @@
+# .github/workflows/build-apk.yml
 name: Build Android APK
 
 on:
@@ -21,15 +22,30 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Install Flet
+      - name: Install Flet CLI
         run: |
           pip install --upgrade pip
           pip install flet
 
-      # 直接构建，不进 app 目录
+      # 使用 flet create 创建标准项目结构（关键！）
+      - name: Create Flet App Structure
+        run: |
+          flet create . --project-name my_flet_app
+
+      # 确保使用我们自己的 pubspec.yaml（覆盖 flet create 生成的）
+      - name: Copy Custom Pubspec
+        run: |
+          cp pubspec.yaml ./
+
+      # 获取依赖（会生成 flutter 项目）
+      - name: Get Dependencies
+        run: |
+          flutter pub get
+
+      # 构建 APK
       - name: Build APK
         run: |
-          flet build apk
+          flet build apk --no-sources
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
