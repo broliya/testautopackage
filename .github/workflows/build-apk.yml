@@ -31,7 +31,7 @@ jobs:
       # 只要你项目根目录有 pubspec.yaml，它就会用你的文件！
       - name: Build APK
         run: |
-          flet build apk --no-sources
+          flet build apk
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
